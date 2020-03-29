@@ -1,9 +1,40 @@
 <html>
 <head></head>
-    <script src="https://jsdelivr.net/npm@tensorflow/tfjs@latest"></script>
-    <script src="https://jsdelivr.net/npm@tensorflow-models/toxicity"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/toxicity"></script>
+    <script>
+        var j =0
+        function predictinsult(yolo){
+        const threshold = 0.9;
+        toxicity.load(threshold).then(model => {
+            const sentences = [yolo];
+            model.classify(sentences).then(predictions => {
+                for(i=0; i<7; i++){
+                    if(predictions[i].results[0].match){
+                    console.log(predictions[i].label + " was found with a probability of " + predictions[i].results[0].probabilities[1]);
+                    alert(predictions[i].label + " was found with a probability of " + predictions[i].results[0].probabilities[1]);
+                }
+                    else j++;
+                }
+                if(j>6)alert("it's a cool thing to say");
+                j=0;
+            });
+        });
+        }
+    </script>
+    <script>
+            function othername() {
+    var input = document.getElementById("userinput").value;
+    predictinsult(input);
+}
+            </script>
     <body>
         <h1>Toxicity Classifier</h1>
+        
+        <h2>Input a sentence</h2>
+        <label> Enter the text
+        <input type="text" name="userinput" id="userinput">
+        <input type="submit" name="" value="Submit" onclick="othername()">
+      </label>
     </body>
 </html>
