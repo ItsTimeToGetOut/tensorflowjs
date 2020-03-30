@@ -1,0 +1,42 @@
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script> 
+</head>
+    <script>
+        function bruh(){
+    const img = document.getElementById('myImg');
+    const outp = document.getElementById('output');
+    mobilenet.load().then(model => {
+        model.classify(img).then(predictions => {
+            console.log(predictions);
+            for(var i = 0; i<predictions.length; i++){
+                outp.innerHTML += "<br/>" + predictions[i].className + " : " + predictions[i].probability;
+            }
+        });
+    });
+        }
+</script>
+    <body>
+        
+    <script>
+        window.addEventListener('load', function() {
+            document.querySelector('input[type="file"]').addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    var img = document.querySelector('img');
+                    img.src = URL.createObjectURL(this.files[0]);
+                    img.onload = imageIsLoaded;
+                }
+            });
+        });
+        
+        function imageIsLoaded() { 
+            alert(this.src);
+            bruh();
+        }
+    </script>
+        <input type='file' />
+        <br><img id="myImg" src="#" alt="your image" height=500 width=500>
+    <div id="output" style="font-family:courier;font-size:24px;height=300px"></div>
+</body>
+</html>
